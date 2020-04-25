@@ -45,8 +45,7 @@ async function cronJob() {
 }
 
 async function main() {
-  await cronJob();
-  // cron.schedule(every10Minutes, cronJob);
+  cron.schedule(every10Minutes, cronJob);
 }
 
 main();
