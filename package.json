@@ -1,0 +1,25 @@
+{
+  "name": "github-monitor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node run.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@slack/webhook": "^5.0.3",
+    "@types/axios": "^0.14.0",
+    "@types/cheerio": "^0.22.18",
+    "@types/dotenv": "^8.2.0",
+    "@types/lowdb": "^1.0.9",
+    "@types/node": "^13.13.2",
+    "@types/node-cron": "^2.0.3",
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "lowdb": "^1.0.0",
+    "node-cron": "^2.0.3"
+  }
+}
