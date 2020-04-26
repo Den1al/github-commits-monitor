@@ -27,6 +27,7 @@ Then populate that file with the required fields:
 {
     "slack_webhook_url": "https://hooks.slack.com/services/.../.../...",
     "slack_channel": "enter channel here",
+    "cron_interval": "*/10 * * * *",
     "repos": [
         "https://github.com/Account1/Repo1",
         "https://github.com/Account1/Repo2",
