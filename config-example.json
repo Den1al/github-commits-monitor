@@ -1,0 +1,9 @@
+{
+    "slack_webhook_url": "https://hooks.slack.com/services/.../.../...",
+    "slack_channel": "enter channel here",
+    "repos": [
+        "https://github.com/Account1/Repo1",
+        "https://github.com/Account1/Repo2",
+        "https://github.com/Account2/Repo1"
+    ]
+}

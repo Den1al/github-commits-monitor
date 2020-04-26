@@ -21,6 +21,7 @@ Then populate that file with the required fields:
 ```json
 {
     "slack_webhook_url": "https://hooks.slack.com/services/.../.../...",
+    "slack_channel": "enter channel here",
     "repos": [
         "https://github.com/Account1/Repo1",
         "https://github.com/Account1/Repo2",
