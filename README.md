@@ -1,5 +1,5 @@
 # Github Commits Monitor
-#### Author: Daniel Abeles
+##### Author: [Daniel Abeles](https://twitter.com/Daniel_Abeles) 
 
 Monitor commits of public Github repositories
 
