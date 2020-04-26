@@ -2,23 +2,32 @@ import * as lowdb from "lowdb";
 import * as FileSync from 'lowdb/adapters/FileSync';
 import { Commit } from "./commit";
 
-const adapter = new FileSync('db.json');
-const db = lowdb(adapter);
+class Database {
+  private db: lowdb.LowdbSync<any>;
+  private key: string = 'commits';
 
-db.defaults({ commits: {} }).write();
+  constructor() {
+    const adapter = new FileSync('db.json');
+    this.db = lowdb(adapter);
 
-export function getLastCommitFromDB(repo: string): Commit {
-  let commits = db.get('commits').value();
-
-  if (repo in commits) {
-    return commits[repo];
+    this.db.defaults({ commits: {} }).write();
   }
 
-  return undefined;
+  public get(repo: string) {
+    let commits = this.db.get(this.key).value();
+
+    if (repo in commits) {
+      return commits[repo];
+    }
+
+    return undefined;
+  }
+
+  public set(commit: Commit) {
+    let commits = this.db.get(this.key).value();
+    commits[commit.repo] = commit;
+    this.db.set(this.key, commits).write();
+  }
 }
 
-export function setLastCommitFromDB(repo: string, commit: Commit) {
-  let commits = db.get('commits').value();
-  commits[repo] = commit;
-  db.set('commits', commits).write();
-}
+export default new Database();

@@ -9,24 +9,10 @@ async function getCommitsPage(repo: string): Promise<string> {
   return response.data;
 }
 
-export async function getLastCommit(repo: string): Promise<Commit> {
+export async function fetchLastCommit(repo: string): Promise<Commit> {
   let html = await getCommitsPage(repo);
   let $ = cheerio.load(html);
 
-  let commit = $('li.commit').first();
-
-  let path = commit.find('a.message').attr('href')
-  let url = joinURLParts('https://github.com', path);
-
-  let message = commit.find('a.message').text().trim();
-  let author = commit.find('span.commit-author').text().trim();
-  let time = commit.find('relative-time').attr('datetime');
-
-  return {
-    repo,
-    url,
-    message,
-    author,
-    time
-  }
+  let lastCommit = $('li.commit').first();
+  return Commit.fromCheerio(lastCommit, repo);
 }

@@ -1,38 +1,26 @@
 import * as cron from 'node-cron';
 
-import { getLastCommit } from './lib/github';
-import { getLastCommitFromDB, setLastCommitFromDB } from "./lib/db";
+import { fetchLastCommit } from './lib/github';
 import { Commit } from './lib/commit';
-import { send } from './lib/slack';
-import { getConfig } from './lib/utils';
+import Database from "./lib/db";
+import Slack from './lib/slack';
+import config from './lib/config';
 
 const every10Minutes = '*/10 * * * *';
-const config = getConfig();
-const repos: string[] = config.repos;
-
-async function notify(c: Commit) {
-  console.log(`found new commit!`);
-  await send(c);
-}
-
-function areTheSame(c1: Commit, c2: Commit) {
-  let fields = ['url', 'author', 'message', 'time'];
-  return fields.every(field => c1[field] === c2[field]);
-}
 
 async function handleRepo(repo: string) {
 
-  let currentLastCommit = await getLastCommit(repo);
-  let dbLastCommit = getLastCommitFromDB(repo);
+  let commitFromGithub: Commit = await fetchLastCommit(repo);
+  let commitFromDB: Commit = Database.get(repo);
 
-  if (dbLastCommit === undefined) {
-    setLastCommitFromDB(repo, currentLastCommit);
+  if (commitFromDB === undefined) {
+    Database.set(commitFromGithub);
     return;
   }
 
-  if (!areTheSame(currentLastCommit, dbLastCommit)) {
-    setLastCommitFromDB(repo, currentLastCommit);
-    await notify(currentLastCommit);
+  if (!Commit.areTheSame(commitFromGithub, commitFromDB)) {
+    Database.set(commitFromGithub);
+    await Slack.send(commitFromGithub);
   } else {
     console.log('are the same...')
   }
@@ -40,7 +28,7 @@ async function handleRepo(repo: string) {
 
 async function cronJob() {
   await Promise.all(
-    repos.map(repo => handleRepo(repo))
+    config.repos.map(repo => handleRepo(repo))
   );
 }
 
