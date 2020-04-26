@@ -6,8 +6,6 @@ import Database from "./lib/db";
 import Slack from './lib/slack';
 import config from './lib/config';
 
-const every10Minutes = '*/10 * * * *';
-
 async function handleRepo(repo: string) {
 
   let commitFromGithub: Commit = await fetchLastCommit(repo);
@@ -33,7 +31,7 @@ async function cronJob() {
 }
 
 async function main() {
-  cron.schedule(every10Minutes, cronJob);
+  cron.schedule(config.cron_interval, cronJob);
 }
 
 main();

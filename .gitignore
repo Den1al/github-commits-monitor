@@ -2,6 +2,7 @@
 config.json
 package-lock.json
 db.json
+test.ts
 
 # Logs
 logs
