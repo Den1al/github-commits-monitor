@@ -14,7 +14,7 @@ export class Commit {
     let url = joinURLParts('https://github.com', path);
 
     let message = commit.find('a.message').text().trim();
-    let author = commit.find('span.commit-author').text().trim();
+    let author = commit.find('.commit-author').text().trim();
     let time = commit.find('relative-time').attr('datetime');
 
     return new Commit(url, message, author, time, repo);
