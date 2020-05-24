@@ -1,4 +1,5 @@
 import { readFileSync } from "fs";
+import * as path from "path";
 
 class Config {
   repos: string[] = [];
@@ -10,7 +11,7 @@ class Config {
 function getConfig(): Config {
   try {
     const config: Config = JSON.parse(
-      readFileSync(__dirname + "/config.json", "utf-8")
+      readFileSync(path.join(__dirname, "..", "config.json"), "utf-8")
     ) as Config;
 
     let fields = Object.keys(new Config());
